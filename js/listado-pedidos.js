@@ -3,12 +3,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const nameUser = document.querySelector('#nombre-usuario');
   const btnLogout = document.querySelector('#btnLogout');
   const searchInput = document.querySelector('#search-input');
+  
 
   /* VARIABLES GLOBALES
   =============================== */
   let pedidos = [];
   let pedidoActual = null;
 
+
+// -------------------- BUSCAR PRODUCTOS --------------------
+let searchProductTable = () => {
+    let textSearch = (searchInput.value || '').toLowerCase();
+
+    if (textSearch === '') {
+    renderTable(pedidos);
+    return;
+  }
+
+    let filtrados = pedidos.filter
+    (p => p.nombre.toLowerCase().includes(textSearch) || p.metodo_pago.toLowerCase().includes(textSearch));
+    renderTable(filtrados);
+};
+
+// -------------------- EVENTOS PRINCIPALES --------------------
+searchInput.addEventListener("keyup", searchProductTable);
+searchInput.addEventListener('input', searchProductTable);
+
+document.addEventListener("DOMContentLoaded", () => {
+    getTableData();
+    getUser();
+});
+  
   /* 
     MODALES BOOTSTRAP
   =============================== */

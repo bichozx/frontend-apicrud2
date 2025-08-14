@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ===============================
+  /* 
       ELEMENTOS DEL DOM
   =============================== */
   const tablaClientes = document.querySelector('#table-clientes > tbody');
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnLogout = document.querySelector('#btnLogout');
   const searchInput = document.querySelector('#search-input');
 
-  /* ===============================
+  /* 
       VARIABLES GLOBALES
   =============================== */
   let clientes = [];
@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Renderizar tabla
+//===============================
   const renderTable = (data) => {
     tablaClientes.innerHTML = '';
     data.forEach((dato, i) => {
@@ -74,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Obtener lista de clientes
+  //===============================
   const getClients = async () => {
     try {
       const res = await fetch('http://localhost/backend-apicrud/index.php?url=clientes', {
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  /* ===============================
+  /* 
       FUNCIONES DE MODALES
   =============================== */
 
@@ -191,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ===============================
+  /* 
     BÚSQUEDA EN LA TABLA
   =============================== */
   const searchClienteTable = () => {
@@ -216,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTable(clientes);
   });
 
-  /* ===============================
+  /* 
     EVENTOS EN LA TABLA
   =============================== */
   tablaClientes.addEventListener('click', (e) => {
@@ -235,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (deleteBtn) eliminarCliente(deleteBtn.dataset.id);
   });
 
-  /* ===============================
+  /* 
     LOGOUT
   =============================== */
   if (btnLogout) {
@@ -245,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ===============================
+  /* 
       INICIALIZACIÓN
   =============================== */
   getUser();
