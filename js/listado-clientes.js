@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-  /* 
-      ELEMENTOS DEL DOM
-  =============================== */
   const tablaClientes = document.querySelector('#table-clientes > tbody');
   const nameUser = document.querySelector('#nombre-usuario');
   const btnLogout = document.querySelector('#btnLogout');
@@ -17,18 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ===============================
     MODALES BOOTSTRAP
   =============================== */
-  const editarClienteModal = new bootstrap.Modal(document.getElementById('editarClienteModal'));
-  const eliminarClienteModal = new bootstrap.Modal(document.getElementById('eliminarClienteModal'));
-  const verClienteModal = new bootstrap.Modal(document.getElementById('verClienteModal'));
+  const editarClienteModal = new bootstrap.Modal(
+    document.getElementById('editarClienteModal')
+  );
+  const eliminarClienteModal = new bootstrap.Modal(
+    document.getElementById('eliminarClienteModal')
+  );
+  const verClienteModal = new bootstrap.Modal(
+    document.getElementById('verClienteModal')
+  );
 
   /* ===============================
     FUNCIONES AUXILIARES
   =============================== */
-  
+
   // Obtener cliente por ID
   const fetchClientePorId = async (id) => {
     try {
-      const res = await fetch(`http://localhost/backend-apicrud/index.php?url=clientes&id=${id}`);
+      const res = await fetch(
+        `http://localhost/backend-apicrud/index.php?url=clientes&id=${id}`
+      );
       if (!res.ok) throw new Error(`Error al obtener cliente ${id}`);
       return await res.json();
     } catch (err) {
@@ -46,12 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Renderizar tabla
-//===============================
+  //===============================
   const renderTable = (data) => {
+    console.log('🚀 ~ renderTable ~ data:', data)
     tablaClientes.innerHTML = '';
     data.forEach((dato, i) => {
+      console.log('🚀 ~ renderTable ~ dato:', dato)
       const row = document.createElement('tr');
       row.innerHTML = `
+      
         <td>${i + 1}</td>
         <td>${dato.nombre}</td>
         <td>${dato.apellido}</td>
@@ -59,16 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${dato.celular}</td>
         <td>${dato.direccion}</td>
         <td>
-          <button class="btn btn-sm btn-warning btn-edit" data-id="${dato.id_cliente || dato.id}">
+          <button class="btn btn-sm btn-warning btn-edit" data-id="${
+            dato.id_cliente || dato.id
+          }">
             <i class="fas fa-edit"></i>
           </button>
-          <button class="btn btn-sm btn-danger btn-delete" data-id="${dato.id_cliente || dato.id}">
+          <button class="btn btn-sm btn-danger btn-delete" data-id="${
+            dato.id_cliente || dato.id
+          }">
             <i class="fas fa-trash"></i>
           </button>
-          <button class="btn btn-sm btn-info btn-view" data-id="${dato.id_cliente || dato.id}">
+          <button class="btn btn-sm btn-info btn-view" data-id="${
+            dato.id_cliente || dato.id
+          }">
             <i class="fas fa-eye"></i>
           </button>
         </td>
+        
       `;
       tablaClientes.appendChild(row);
     });
@@ -78,10 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
   //===============================
   const getClients = async () => {
     try {
-      const res = await fetch('http://localhost/backend-apicrud/index.php?url=clientes', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
+      const res = await fetch(
+        'http://localhost/backend-apicrud/index.php?url=clientes',
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
 
       if (res.status === 204) {
         console.log('No hay datos en la BD');
@@ -107,12 +124,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cliente) return;
 
     clienteActual = cliente;
-    document.getElementById('modal-nombre-completo').textContent = `${cliente.nombre} ${cliente.apellido}` || '';
+    document.getElementById('modal-nombre-completo').textContent =
+      `${cliente.nombre} ${cliente.apellido}` || '';
     document.getElementById('modal-email').textContent = cliente.email || '';
-    document.getElementById('modal-celular').textContent = cliente.celular || '';
-    document.getElementById('modal-direccion').textContent = cliente.direccion || '';
-    document.getElementById('modal-direccion2').textContent = cliente.direccion2 || '';
-    document.getElementById('modal-descripcion').textContent = cliente.descripcion || '';
+    document.getElementById('modal-celular').textContent =
+      cliente.celular || '';
+    document.getElementById('modal-direccion').textContent =
+      cliente.direccion || '';
+    document.getElementById('modal-direccion2').textContent =
+      cliente.direccion2 || '';
+    document.getElementById('modal-descripcion').textContent =
+      cliente.descripcion || '';
     verClienteModal.show();
   };
 
@@ -122,39 +144,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('edit-cliente-id').value = clienteActual.id_cliente;
     document.getElementById('edit-cliente-nombre').value = clienteActual.nombre;
-    document.getElementById('edit-cliente-apellido').value = clienteActual.apellido;
+    document.getElementById('edit-cliente-apellido').value =
+      clienteActual.apellido;
     document.getElementById('edit-cliente-email').value = clienteActual.email;
-    document.getElementById('edit-cliente-celular').value = clienteActual.celular;
-    document.getElementById('edit-cliente-direccion').value = clienteActual.direccion;
-    document.getElementById('edit-cliente-direccion2').value = clienteActual.direccion2;
-    document.getElementById('edit-cliente-descripcion').value = clienteActual.descripcion;
+    document.getElementById('edit-cliente-celular').value =
+      clienteActual.celular;
+    document.getElementById('edit-cliente-direccion').value =
+      clienteActual.direccion;
+    document.getElementById('edit-cliente-direccion2').value =
+      clienteActual.direccion2;
+    document.getElementById('edit-cliente-descripcion').value =
+      clienteActual.descripcion;
 
     verClienteModal.hide();
     editarClienteModal.show();
   };
 
   // Guardar cambios cliente
-  document.getElementById('btnGuardarCambios').addEventListener('click', async () => {
-    const updated = {
-      id: document.getElementById('edit-cliente-id').value,
-      nombre: document.getElementById('edit-cliente-nombre').value,
-      apellido: document.getElementById('edit-cliente-apellido').value || '',
-      email: document.getElementById('edit-cliente-email').value,
-      celular: document.getElementById('edit-cliente-celular').value,
-      direccion: document.getElementById('edit-cliente-direccion').value,
-      direccion2: document.getElementById('edit-cliente-direccion2').value,
-      descripcion: document.getElementById('edit-cliente-descripcion').value
-    };
+  document
+    .getElementById('btnGuardarCambios')
+    .addEventListener('click', async () => {
+      const updated = {
+        id: document.getElementById('edit-cliente-id').value,
+        nombre: document.getElementById('edit-cliente-nombre').value,
+        apellido: document.getElementById('edit-cliente-apellido').value || '',
+        email: document.getElementById('edit-cliente-email').value,
+        celular: document.getElementById('edit-cliente-celular').value,
+        direccion: document.getElementById('edit-cliente-direccion').value,
+        direccion2: document.getElementById('edit-cliente-direccion2').value,
+        descripcion: document.getElementById('edit-cliente-descripcion').value,
+      };
 
-    await fetch(`http://localhost/backend-apicrud/index.php?url=clientes`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updated),
+      await fetch(`http://localhost/backend-apicrud/index.php?url=clientes`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated),
+      });
+
+      editarClienteModal.hide();
+      getClients();
     });
-
-    editarClienteModal.hide();
-    getClients();
-  });
 
   // Eliminar cliente
   window.eliminarCliente = (id) => {
@@ -163,35 +192,43 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Confirmar eliminación
-  document.getElementById('btnConfirmarEliminar').addEventListener('click', async () => {
-    const id_cliente = document.getElementById('delete-cliente-id').value;
-    try {
-      const res = await fetch(`http://localhost/backend-apicrud/index.php?url=clientes`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id_cliente }),
-      });
+  document
+    .getElementById('btnConfirmarEliminar')
+    .addEventListener('click', async () => {
+      const id_cliente = document.getElementById('delete-cliente-id').value;
+      try {
+        const res = await fetch(
+          `http://localhost/backend-apicrud/index.php?url=clientes`,
+          {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id_cliente }),
+          }
+        );
 
-      //if (!res.ok) throw new Error('Error al eliminar el cliente');
-      if (!res.ok) {
-      const errorText = await res.text();
+        //if (!res.ok) throw new Error('Error al eliminar el cliente');
+        if (!res.ok) {
+          const errorText = await res.text();
 
-      // Detectar si es error por pedidos (puedes cambiar esta condición si el backend devuelve otro mensaje)
-      if (errorText.includes("foreign key") || errorText.includes("pedido")) {
-        alert("⚠ No se puede eliminar: El cliente tiene pedidos en curso.");
-      } else {
-        alert("❌ Error al eliminar el cliente.");
+          // Detectar si es error por pedidos (puedes cambiar esta condición si el backend devuelve otro mensaje)
+          if (
+            errorText.includes('foreign key') ||
+            errorText.includes('pedido')
+          ) {
+            alert('⚠ No se puede eliminar: El cliente tiene pedidos en curso.');
+          } else {
+            alert('❌ Error al eliminar el cliente.');
+          }
+          throw new Error(errorText);
+        }
+
+        eliminarClienteModal.hide();
+        alert('Cliente Eliminado Correctamente');
+        getClients();
+      } catch (error) {
+        console.error('Error eliminando cliente:', error);
       }
-      throw new Error(errorText);
-    }
-
-      eliminarClienteModal.hide();
-      alert('Cliente Eliminado Correctamente');
-      getClients();
-    } catch (error) {
-      console.error('Error eliminando cliente:', error);
-    }
-  });
+    });
 
   /* 
     BÚSQUEDA EN LA TABLA
@@ -203,9 +240,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const filtrados = clientes.filter(p =>
-      p.nombre.toLowerCase().includes(textSearch) ||
-      p.apellido.toLowerCase().includes(textSearch)
+    const filtrados = clientes.filter(
+      (p) =>
+        p.nombre.toLowerCase().includes(textSearch) ||
+        p.apellido.toLowerCase().includes(textSearch)
     );
     renderTable(filtrados);
   };
@@ -252,5 +290,4 @@ document.addEventListener('DOMContentLoaded', () => {
   =============================== */
   getUser();
   getClients();
-
 });

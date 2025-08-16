@@ -66,6 +66,7 @@ let renderTable = (data) => {
             <td>${dato.nombre}</td>
             <td>${dato.precio}</td>
             <td>${dato.stock}</td>
+            <td>${dato.descripcion}</td>
             <td><img src="${dato.imagen}" width="60"></td>
             <td>
                 <button class="btn btn-warning btn-sm btn-edit" data-id="${dato.id}"><i class="fas fa-edit"></i></button>

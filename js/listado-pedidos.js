@@ -95,14 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${dato.descuento}</td>
         <td>${dato.aumento}</td>
         <td>${dato.fecha}</td>
-          <td>
-        <span class="badge ${
-          dato.estado === 'Completado' ? 'badge-primary':'badge-success'  
-        }">
-          ${dato.estado ?? ''}
-        </span>
-      </td>
-        <td>${dato.acciones ?? ''}
+        <td>
         
           <button class="btn btn-sm btn-warning btn-edit" data-id="${
             dato.id || dato.id_cliente
