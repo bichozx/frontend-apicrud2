@@ -1,8 +1,14 @@
-const nameUser = document.querySelector('#nombre-usuario');
+const nameUser  = document.querySelector('#nombre-usuario');
 const btnLogout = document.querySelector('#btnLogout');
 const btnCreate = document.querySelector('.btn-create');
+const formCliente = document.getElementById('form-cliente');
 
-// Obtener y mostrar el usuario logueado
+
+// ========================
+// Funciones
+// ========================
+
+// Mostrar el usuario logueado
 function getUser() {
   const user = JSON.parse(localStorage.getItem('userLogin'));
   if (user && nameUser) {
@@ -13,13 +19,13 @@ function getUser() {
 // Crear un nuevo cliente
 async function createClient() {
   const nuevoCliente = {
-    nombre: document.getElementById('nombre-cliente').value.trim(),
-    apellido: document.getElementById('apellido-cliente').value.trim(),
-    email: document.getElementById('email-cliente').value.trim(),
-    celular: document.getElementById('celular-cliente').value.trim(),
-    direccion: document.getElementById('direccion-cliente').value.trim(),
+    nombre:     document.getElementById('nombre-cliente').value.trim(),
+    apellido:   document.getElementById('apellido-cliente').value.trim(),
+    email:      document.getElementById('email-cliente').value.trim(),
+    celular:    document.getElementById('celular-cliente').value.trim(),
+    direccion:  document.getElementById('direccion-cliente').value.trim(),
     direccion2: document.getElementById('direccion2-cliente').value.trim(),
-    descripcion: document.getElementById('descripcion-cliente').value.trim(),
+    descripcion:document.getElementById('descripcion-cliente').value.trim(),
   };
 
   try {
@@ -34,9 +40,9 @@ async function createClient() {
     if (!res.ok) throw new Error(data.message || 'Error al crear cliente');
 
     // Limpiar formulario
-    document.getElementById('form-cliente').reset();
+    formCliente.reset();
 
-    alert('Cliente creado correctamente ✅');
+    alert('✅ Cliente creado correctamente');
     location.href = '../listado-clientes.html';
 
   } catch (error) {
@@ -46,10 +52,11 @@ async function createClient() {
 }
 
 
+// ========================
 // Eventos
 // ========================
 
-// Botón logout
+// Logout
 if (btnLogout) {
   btnLogout.addEventListener('click', () => {
     localStorage.removeItem('userLogin');
@@ -57,12 +64,14 @@ if (btnLogout) {
   });
 }
 
-// Botón crear cliente
+// Crear cliente
 if (btnCreate) {
   btnCreate.addEventListener('click', createClient);
 }
 
 
+// ========================
 // Inicialización
 // ========================
 getUser();
+
